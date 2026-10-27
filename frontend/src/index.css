@@ -1,0 +1,113 @@
+/* Archivo de estilos principal AuriGo (Design System Oficial) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@700&display=swap');
+
+:root {
+  /* Paleta Oficial AuriGo (Sistema 60-30-10) */
+  --aurigo-yellow: #FFB800;       /* 10% CTA Primario / Conversión */
+  --aurigo-yellow-hover: #E5A600;
+  --aurigo-obsidian: #0F172A;     /* 30% Estructural / Modo Noche */
+  --aurigo-amber: #D97706;        /* Acento de lectura en fondos claros */
+  --aurigo-blue-tachira: #0284C7; /* Secundario de navegación / Ruta / Conductor */
+  --aurigo-green-laso: #16A34A;   /* Semántico de éxito / Pago confirmado */
+  --aurigo-pink-clavellina: #E11D48; /* Categoría AuriClavellina */
+  --aurigo-slate: #334155;        /* Gris pizarra para textos y estructuras */
+  --aurigo-mist: #F8FAFC;         /* 60% Dominante diurno */
+  --aurigo-border: #E2E8F0;
+  --aurigo-surface: #FFFFFF;
+
+  /* Radios Geometría Cordial */
+  --radius-button: 12px;
+  --radius-card: 16px;
+  --radius-pill: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--aurigo-mist);
+  color: var(--aurigo-obsidian);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+#root {
+  width: 100%;
+  max-width: 520px; /* Enfoque Mobile-First / Wizard */
+  min-height: 100vh;
+  background: #FFFFFF;
+  box-shadow: 0 0 40px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Tipografía de números y tarifas con alineación tabular obligatoria */
+.tabular-nums {
+  font-family: 'Inter', 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.3px;
+}
+
+/* Botón de acción principal con regla de 10% de conversión */
+.btn-aurigo-cta {
+  background-color: var(--aurigo-yellow);
+  color: var(--aurigo-obsidian);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: var(--radius-button);
+  padding: 16px 24px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  box-shadow: 0 8px 25px rgba(255, 184, 0, 0.35);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-aurigo-cta:hover:not(:disabled) {
+  background-color: var(--aurigo-yellow-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(255, 184, 0, 0.45);
+}
+
+.btn-aurigo-cta:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-aurigo-cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Tarjeta con Geometría Cordial */
+.card-cordial {
+  background: #FFFFFF;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--aurigo-border);
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+  transition: all 0.2s ease;
+}
+
+.card-cordial.selected {
+  border: 2px solid var(--aurigo-yellow);
+  background: #FFFDF5;
+  box-shadow: 0 6px 20px rgba(255, 184, 0, 0.18);
+}
+
+/* Efecto de curvatura y franja dinámica de 15 grados */
+.cuesta-tachirense-badge {
+  transform: rotate(-1.5deg);
+  font-weight: 700;
+}
