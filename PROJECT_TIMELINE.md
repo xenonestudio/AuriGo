@@ -28,6 +28,7 @@
   * Landing `/` (`frontend/src/pages/Landing.tsx` + `landing.css`) inspirada en la referencia Soft Clean UI, adaptada a AuriGo (gradiente aurora amarillo/ámbar/azul Táchira, CTA Amarillo Aurinegro, botones Obsidiana).
   * Web App de traslados movida a `/app` con carga diferida (code-splitting).
   * SEO: metas title/description, canonical, Open Graph/Twitter, geo local (VE-S), JSON-LD (Organization, TaxiService, MobileApplication), `robots.txt`, `sitemap.xml`, `manifest.webmanifest`, HTML semántico con jerarquía H1-H3.
+  * Rediseño v0.3.1: landing minimalista y editorial (sin emojis ni datos inventados, íconos de línea, divisores finos, amarillo solo como acento de acción). Sección de categorías de vehículos eliminada. Efectos: titular palabra a palabra, chat animado, revelado en scroll escalonado, resplandor que sigue al cursor, hover con desplazamiento; respeta `prefers-reduced-motion`.
 
 ## ⚡ 2. Qué Estamos Haciendo (Estado Actual & Sprint Activo)
 
