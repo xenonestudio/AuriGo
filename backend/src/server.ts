@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { initDatabase, db } from './db/database.js';
 import { GeoService, GeoProviderType } from './services/geo/geo.service.js';
 import { GeminiKeyManager } from './services/gemini/gemini-key-manager.js';
 import { GeminiValetService } from './services/gemini/gemini-valet.service.js';
@@ -15,8 +16,10 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
+// 0. Inicializar Base de Datos SQLite (Persistencia local ultra rápida)
+initDatabase();
+
 // 1. Inicialización de Servicios
-// Soporte de múltiples API Keys separadas por coma en el .env: GEMINI_API_KEYS="key1,key2,key3"
 const geminiKeysRaw = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || '';
 const geminiKeys = geminiKeysRaw.split(',').map(k => k.trim()).filter(k => k.length > 0);
 const geminiKeyManager = new GeminiKeyManager(geminiKeys);
@@ -29,18 +32,6 @@ const geoService = new GeoService(
 
 const pricingService = new PricingService();
 
-// Mock en memoria para lugares frecuentes de usuario (perfil rápido)
-const userProfiles: Record<string, any> = {
-  default_user: {
-    id: 'default_user',
-    name: 'Usuario AuriGo',
-    frequentPlaces: [
-      { label: 'Casa', address: 'Calle Principal, Edif. Auri, Apt 4B', lat: 10.4806, lng: -66.9036 },
-      { label: 'Trabajo', address: 'Torre Empresarial Centro, Piso 8', lat: 10.4950, lng: -66.8650 },
-    ],
-  },
-};
-
 // ================= RUTAS API =================
 
 // Health check
@@ -48,6 +39,7 @@ app.get('/api/health', (req: Request, res: Response) => {
   res.json({
     status: 'ok',
     app: 'AuriGo API',
+    database: 'SQLite (WAL Mode)',
     geoProvider: geoService.getCurrentProviderType(),
     geminiKeyStats: geminiKeyManager.getStats(),
   });
@@ -63,7 +55,7 @@ app.post('/api/config/geo-provider', (req: Request, res: Response) => {
   res.status(400).json({ error: 'Proveedor inválido. Use "osm" o "google".' });
 });
 
-// 2. Administrador de API Keys de Gemini (agregar o ver estadísticas)
+// 2. Administrador de API Keys de Gemini
 app.get('/api/ai/keys-status', (req: Request, res: Response) => {
   res.json({ keys: geminiKeyManager.getStats() });
 });
@@ -80,20 +72,20 @@ app.post('/api/ai/add-key', (req: Request, res: Response) => {
 // 3. Valet Conversacional de AuriGo (Chat inteligente)
 app.post('/api/ai/valet-chat', async (req: Request, res: Response) => {
   try {
-    const { message, context, history } = req.body;
+    const { message, context } = req.body;
     if (!message) {
       return res.status(400).json({ error: 'Mensaje requerido.' });
     }
 
     const userId = context?.userId || 'default_user';
-    const profile = userProfiles[userId] || userProfiles.default_user;
+    const places = db.prepare('SELECT label, address, lat, lng FROM frequent_places WHERE user_id = ?').all(userId);
 
     const fullContext = {
       ...context,
-      frequentPlaces: profile.frequentPlaces,
+      frequentPlaces: places,
     };
 
-    const reply = await valetService.processUserMessage(message, fullContext, history);
+    const reply = await valetService.processUserMessage(message, fullContext);
     res.json(reply);
   } catch (error: any) {
     console.error('Error en /api/ai/valet-chat:', error);
@@ -150,30 +142,101 @@ app.post('/api/trips/quote', async (req: Request, res: Response) => {
   }
 });
 
-// 6. Métodos de Pago y Tasas
-app.get('/api/payments/methods', (req: Request, res: Response) => {
-  res.json({
-    methods: PAYMENT_METHODS,
-    exchangeRates: pricingService.getExchangeRates(),
-  });
+// 6. Confirmación y Registro de Traslado en SQLite
+app.post('/api/trips/confirm', (req: Request, res: Response) => {
+  try {
+    const {
+      userId = 'default_user',
+      originAddress,
+      originLat,
+      originLng,
+      destinationAddress,
+      destinationLat,
+      destinationLng,
+      vehicleType,
+      distanceKm,
+      durationMinutes,
+      priceCop,
+      priceUsd,
+      priceVes,
+      currency,
+      paymentMethod,
+    } = req.body;
+
+    const tripId = `TRIP_${Date.now()}`;
+    const insertTrip = db.prepare(`
+      INSERT INTO trips (
+        id, user_id, origin_address, origin_lat, origin_lng,
+        destination_address, destination_lat, destination_lng,
+        vehicle_type, distance_km, duration_minutes,
+        price_cop, price_usd, price_ves, currency, payment_method,
+        status, driver_name, driver_vehicle, driver_plate
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    insertTrip.run(
+      tripId,
+      userId,
+      originAddress || 'Ubicación GPS',
+      originLat || null,
+      originLng || null,
+      destinationAddress,
+      destinationLat || null,
+      destinationLng || null,
+      vehicleType,
+      distanceKm || 4.2,
+      durationMinutes || 12,
+      priceCop || 15000,
+      priceUsd || 3.6,
+      priceVes || 162.0,
+      currency || 'COP',
+      paymentMethod || 'efectivo_pesos',
+      'accepted',
+      'Carlos Gómez (Socio Fundador)',
+      vehicleType === 'AuriMoto' ? 'Bera SBR 150 (Amarillo/Negro)' : 'Chevrolet Optra Sedán',
+      'AB123CD'
+    );
+
+    res.json({
+      success: true,
+      tripId,
+      driver: {
+        name: 'Carlos Gómez',
+        vehicle: vehicleType === 'AuriMoto' ? 'Bera SBR 150 (Amarillo/Negro)' : 'Chevrolet Optra Sedán',
+        plate: 'AB123CD',
+        etaMinutes: 4,
+      },
+    });
+  } catch (error: any) {
+    console.error('Error registrando traslado en SQLite:', error);
+    res.status(500).json({ error: 'Error al confirmar el traslado.' });
+  }
 });
 
-// 7. Perfil y Lugares Frecuentes
+// 7. Perfil y Lugares Frecuentes en SQLite
 app.get('/api/users/profile', (req: Request, res: Response) => {
-  res.json(userProfiles.default_user);
+  const userId = (req.query.userId as string) || 'default_user';
+  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+  const places = db.prepare('SELECT id, label, address, lat, lng FROM frequent_places WHERE user_id = ?').all(userId);
+  res.json({ user, frequentPlaces: places });
 });
 
 app.post('/api/users/frequent-places', (req: Request, res: Response) => {
-  const { label, address, lat, lng } = req.body;
+  const { userId = 'default_user', label, address, lat, lng } = req.body;
   if (!label || !address) {
     return res.status(400).json({ error: 'Etiqueta y dirección requeridas.' });
   }
-  userProfiles.default_user.frequentPlaces.push({ label, address, lat, lng });
-  res.json({ success: true, places: userProfiles.default_user.frequentPlaces });
+  const result = db.prepare(
+    'INSERT INTO frequent_places (user_id, label, address, lat, lng) VALUES (?, ?, ?, ?, ?)'
+  ).run(userId, label, address, lat || null, lng || null);
+
+  const places = db.prepare('SELECT id, label, address, lat, lng FROM frequent_places WHERE user_id = ?').all(userId);
+  res.json({ success: true, id: result.lastInsertRowid, places });
 });
 
 app.listen(PORT, () => {
   console.log(`\n🚀 Servidor AuriGo iniciado en http://localhost:${PORT}`);
-  console.log(`🗺️ Proveedor de mapas actual: ${geoService.getCurrentProviderType().toUpperCase()}`);
+  console.log(`📦 Base de Datos: SQLite (aurigo.sqlite con WAL mode)`);
+  console.log(`🗺️ Proveedor de mapas: ${geoService.getCurrentProviderType().toUpperCase()}`);
   console.log(`🤖 Google Gemini API Keys configuradas: ${geminiKeys.length}`);
 });
