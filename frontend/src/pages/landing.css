@@ -1,0 +1,156 @@
+/* Landing AuriGo — estructura inspirada en la referencia (Soft Clean UI) adaptada al Manual AuriGo */
+.lp {
+  --ink: #0F172A;
+  --ink-2: #334155;
+  --muted: #64748B;
+  --line: #E2E8F0;
+  --soft: #F7F7F5;
+  --yellow: #FFB800;
+  --amber: #D97706;
+  --blue: #0284C7;
+  --green: #16A34A;
+  --aurora: radial-gradient(60% 70% at 15% 20%, #FFE8A8 0%, transparent 60%),
+            radial-gradient(50% 60% at 85% 15%, #FFD166 0%, transparent 60%),
+            radial-gradient(55% 60% at 30% 95%, #BAE6FD 0%, transparent 60%),
+            radial-gradient(45% 50% at 90% 85%, #FFF1CC 0%, transparent 60%),
+            #FFFDF7;
+  font-family: 'Inter', sans-serif;
+  color: var(--ink);
+  background: #FAFAF8;
+  background-image: radial-gradient(#E5E7EB 1px, transparent 1px);
+  background-size: 22px 22px;
+  min-height: 100vh;
+  width: 100%;
+}
+.lp * { box-sizing: border-box; }
+.lp-shell { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+.lp-frame { background: #fff; border-radius: 24px; box-shadow: 0 10px 40px rgba(15, 23, 42, .06); margin: 24px auto; overflow: hidden; }
+
+/* Nav */
+.lp-nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.82); backdrop-filter: blur(12px); }
+.lp-links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-2); }
+.lp-links a { color: inherit; text-decoration: none; transition: color .2s; }
+.lp-links a:hover { color: var(--amber); }
+.lp-burger { display: none; background: var(--soft); border: 0; border-radius: 10px; width: 40px; height: 40px; font-size: 18px; }
+
+/* Botones */
+.lp-btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; padding: 12px 18px; font: 600 14px 'Inter', sans-serif; cursor: pointer; border: 1px solid transparent; transition: transform .2s, box-shadow .2s, background .2s; text-decoration: none; }
+.lp-btn:hover { transform: translateY(-2px); }
+.lp-btn-dark { background: var(--ink); color: #fff; }
+.lp-btn-dark:hover { box-shadow: 0 10px 24px rgba(15,23,42,.22); }
+.lp-btn-yellow { background: var(--yellow); color: var(--ink); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; box-shadow: 0 8px 25px rgba(255,184,0,.35); }
+.lp-btn-ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+
+/* Píldora/badge */
+.lp-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--soft); border-radius: 999px; padding: 6px 14px 6px 6px; font-size: 12.5px; color: var(--ink-2); }
+.lp-pill-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; color: var(--yellow); font-size: 11px; }
+
+/* Hero split */
+.lp-hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; padding: 40px 48px 56px; align-items: center; }
+.lp-h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: clamp(34px, 4.4vw, 54px); line-height: 1.08; letter-spacing: -1.4px; margin: 18px 0; }
+.lp-h1 em { font-style: normal; color: var(--amber); }
+.lp-lead { font-size: 16px; line-height: 1.6; color: var(--muted); max-width: 470px; }
+.lp-actions { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+
+.lp-visual { position: relative; border-radius: 20px; background: var(--aurora); min-height: 520px; display: grid; place-items: center; overflow: hidden; }
+.lp-visual::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(15deg, transparent 0 38px, rgba(217,119,6,.05) 38px 39px); pointer-events: none; }
+
+/* Teléfono mock */
+.lp-phone { width: 270px; background: #fff; border-radius: 34px; padding: 14px; box-shadow: 0 30px 60px rgba(15,23,42,.18), 0 0 0 8px #0F172A; position: relative; z-index: 2; animation: lp-float 6s ease-in-out infinite; }
+.lp-phone-notch { width: 90px; height: 22px; background: var(--ink); border-radius: 999px; margin: 0 auto 12px; }
+.lp-bubble { font-size: 12px; line-height: 1.45; padding: 10px 12px; border-radius: 14px; margin-bottom: 8px; max-width: 88%; animation: lp-in .6s both; }
+.lp-bubble.v { background: var(--soft); border-bottom-left-radius: 3px; }
+.lp-bubble.u { background: var(--ink); color: #fff; margin-left: auto; border-bottom-right-radius: 3px; }
+.lp-bubble small { display: block; font-size: 9.5px; font-weight: 700; color: var(--amber); letter-spacing: .4px; margin-bottom: 2px; }
+.lp-chips { display: flex; gap: 6px; margin: 4px 0 10px; }
+.lp-chip { border: 1px solid var(--line); border-radius: 10px; padding: 8px; flex: 1; text-align: center; font-size: 11px; font-weight: 600; }
+.lp-chip.on { border: 2px solid var(--yellow); background: #FFFDF5; }
+.lp-chip b { display: block; font-family: 'JetBrains Mono', monospace; color: var(--amber); font-size: 11px; margin-top: 2px; }
+.lp-phone .lp-btn-yellow { width: 100%; justify-content: center; font-size: 12.5px; padding: 11px; }
+
+/* Tarjetas flotantes glass */
+.lp-float { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; background: rgba(15,23,42,.72); color: #fff; backdrop-filter: blur(12px); font-size: 11.5px; box-shadow: 0 10px 30px rgba(15,23,42,.2); animation: lp-float 7s ease-in-out infinite; }
+.lp-float i { width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,.12); display: grid; place-items: center; font-style: normal; }
+.lp-float span { opacity: .7; display: block; font-size: 10.5px; }
+.lp-float.a { right: 18px; bottom: 120px; animation-delay: -2s; }
+.lp-float.b { right: 40px; bottom: 56px; animation-delay: -4s; }
+.lp-float.c { left: 18px; top: 40px; background: rgba(255,255,255,.75); color: var(--ink); }
+
+/* Logos / pagos */
+.lp-logos { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding: 26px 48px 40px; color: #475569; font: 700 16px 'Plus Jakarta Sans', sans-serif; opacity: .8; }
+
+/* Sección centrada */
+.lp-center { text-align: center; padding: 72px 48px 0; }
+.lp-center .lp-h1 { max-width: 760px; margin: 18px auto 36px; font-size: clamp(30px, 3.6vw, 44px); }
+.lp-stage { border-radius: 20px 20px 0 0; background: var(--aurora); padding: 48px 48px 0; margin: 0 48px; }
+.lp-dash { background: #fff; border-radius: 16px 16px 0 0; box-shadow: 0 -10px 40px rgba(15,23,42,.08); padding: 22px; text-align: left; display: grid; grid-template-columns: 52px 1fr; gap: 18px; }
+.lp-side { display: flex; flex-direction: column; gap: 12px; align-items: center; border-right: 1px solid var(--line); padding-right: 14px; }
+.lp-side div { width: 28px; height: 28px; border-radius: 8px; background: var(--soft); }
+.lp-side div.on { background: var(--ink); }
+.lp-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+.lp-kpi { background: var(--soft); border-radius: 12px; padding: 14px; }
+.lp-kpi.hl { background: #FFF7DB; }
+.lp-kpi small { color: var(--muted); font-size: 11px; }
+.lp-kpi strong { display: block; font: 700 24px 'Inter', sans-serif; font-variant-numeric: tabular-nums; margin-top: 4px; }
+.lp-panels { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; }
+.lp-panel { border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+.lp-panel h4 { font-size: 12px; margin: 0 0 12px; }
+.lp-donut { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto; background: conic-gradient(var(--yellow) 0 46%, var(--ink) 46% 74%, var(--blue) 74% 92%, #E11D48 92% 100%); display: grid; place-items: center; }
+.lp-donut b { width: 88px; height: 88px; border-radius: 50%; background: #fff; display: grid; place-items: center; font: 700 20px 'Inter'; }
+.lp-bars { display: flex; align-items: flex-end; gap: 10px; height: 140px; }
+.lp-bars div { flex: 1; border-radius: 6px 6px 0 0; background: var(--ink); animation: lp-grow 1.2s both; transform-origin: bottom; }
+.lp-bars div:nth-child(even) { background: var(--yellow); }
+
+/* Pasos (card estilo "All free of charge") */
+.lp-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 80px 48px; align-items: center; }
+.lp-offer-wrap { background: var(--aurora); border-radius: 20px; padding: 48px; display: grid; place-items: center; }
+.lp-offer { background: #fff; border-radius: 14px; padding: 28px; width: 100%; max-width: 340px; box-shadow: 0 20px 50px rgba(15,23,42,.08); }
+.lp-offer h3 { text-align: center; font: 600 20px 'Plus Jakarta Sans'; margin: 0 0 18px; }
+.lp-offer li { list-style: none; display: flex; gap: 10px; align-items: center; font-size: 13.5px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.lp-offer li::before { content: '✓'; width: 18px; height: 18px; border-radius: 50%; background: #DCFCE7; color: var(--green); font-size: 11px; display: grid; place-items: center; font-weight: 700; }
+.lp-offer ul { padding: 0; margin: 0 0 22px; }
+.lp-offer .lp-btn { width: 100%; justify-content: center; }
+.lp-step { display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.lp-step b { width: 34px; height: 34px; flex-shrink: 0; border-radius: 10px; background: var(--ink); color: var(--yellow); display: grid; place-items: center; font: 700 14px 'Plus Jakarta Sans'; }
+.lp-step h4 { margin: 0 0 4px; font: 600 16px 'Plus Jakarta Sans'; }
+.lp-step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+/* Flota */
+.lp-fleet { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 0 48px 80px; }
+.lp-car { border: 1px solid var(--line); border-radius: 16px; padding: 20px; transition: transform .25s, box-shadow .25s, border-color .25s; }
+.lp-car:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(15,23,42,.08); border-color: var(--yellow); }
+.lp-car .ico { font-size: 26px; }
+.lp-car h3 { margin: 10px 0 4px; font: 700 16px 'Plus Jakarta Sans'; }
+.lp-car p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+.lp-car .tag { display: inline-block; margin-top: 10px; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #FEF3C7; color: var(--amber); }
+.lp-car.pink .tag { background: #FFE4E6; color: #E11D48; }
+
+/* CTA final + footer */
+.lp-cta { margin: 0 48px 48px; border-radius: 20px; background: var(--ink); color: #fff; padding: 56px; display: flex; justify-content: space-between; align-items: center; gap: 24px; position: relative; overflow: hidden; }
+.lp-cta::before { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,184,0,.35), transparent 65%); }
+.lp-cta h2 { font: 600 32px 'Plus Jakarta Sans'; margin: 0; letter-spacing: -.8px; max-width: 520px; }
+.lp-foot { display: flex; justify-content: space-between; padding: 0 48px 32px; font-size: 13px; color: var(--muted); }
+
+/* Animaciones */
+@keyframes lp-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes lp-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes lp-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.lp-reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.lp-reveal.in { opacity: 1; transform: none; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .lp-links, .lp-nav .lp-btn { display: none; }
+  .lp-burger { display: block; }
+  .lp-nav, .lp-hero, .lp-center, .lp-steps, .lp-logos, .lp-foot { padding-left: 20px; padding-right: 20px; }
+  .lp-hero, .lp-steps { grid-template-columns: 1fr; }
+  .lp-stage, .lp-cta { margin-left: 16px; margin-right: 16px; }
+  .lp-stage { padding: 20px 14px 0; }
+  .lp-dash { grid-template-columns: 1fr; }
+  .lp-side { display: none; }
+  .lp-kpis, .lp-panels { grid-template-columns: 1fr; }
+  .lp-fleet { grid-template-columns: 1fr 1fr; padding: 0 20px 56px; }
+  .lp-cta { flex-direction: column; align-items: flex-start; padding: 36px; }
+  .lp-frame { margin: 0; border-radius: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .lp * { animation: none !important; transition: none !important; } }

@@ -24,6 +24,11 @@
 
 ---
 
+* **[2026-10-27] v0.3.0 - Landing pública + SEO:**
+  * Landing `/` (`frontend/src/pages/Landing.tsx` + `landing.css`) inspirada en la referencia Soft Clean UI, adaptada a AuriGo (gradiente aurora amarillo/ámbar/azul Táchira, CTA Amarillo Aurinegro, botones Obsidiana).
+  * Web App de traslados movida a `/app` con carga diferida (code-splitting).
+  * SEO: metas title/description, canonical, Open Graph/Twitter, geo local (VE-S), JSON-LD (Organization, TaxiService, MobileApplication), `robots.txt`, `sitemap.xml`, `manifest.webmanifest`, HTML semántico con jerarquía H1-H3.
+
 ## ⚡ 2. Qué Estamos Haciendo (Estado Actual & Sprint Activo)
 
 * **Sprint Activo:** `Sprint 02 - Refinamiento de la Experiencia Conversacional y Trazado de Rutas en Vivo`

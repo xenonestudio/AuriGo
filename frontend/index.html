@@ -1,19 +1,74 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-VE">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>AuriGo - La Ruta Cordial del Táchira</title>
-    <!-- Google Fonts oficiales según el Manual de Identidad -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-    <!-- Leaflet CSS para OpenStreetMap -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AuriGo · App de traslados en San Cristóbal, Táchira | Moto y carro por chat</title>
+    <meta name="description" content="Pide tu traslado en San Cristóbal y el Táchira como si hablaras con un operador. Escribe o dicta tu destino, elige moto o carro y paga en Pesos, Dólares o Pago Móvil." />
+    <meta name="keywords" content="taxi San Cristóbal, mototaxi Táchira, app de traslados Venezuela, transporte Táchira, AuriGo, pago móvil taxi" />
+    <meta name="theme-color" content="#0F172A" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://aurigo.app/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Geo / local SEO -->
+    <meta name="geo.region" content="VE-S" />
+    <meta name="geo.placename" content="San Cristóbal, Táchira" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_VE" />
+    <meta property="og:site_name" content="AuriGo" />
+    <meta property="og:title" content="AuriGo · La ruta cordial del Táchira" />
+    <meta property="og:description" content="Traslados en moto o carro pidiendo por chat o voz. Paga en COP, USD o Pago Móvil." />
+    <meta property="og:url" content="https://aurigo.app/" />
+    <meta property="og:image" content="https://aurigo.app/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AuriGo · La ruta cordial del Táchira" />
+    <meta name="twitter:description" content="Pide tu traslado como si hablaras con un operador." />
+    <meta name="twitter:image" content="https://aurigo.app/og-image.png" />
+
+    <!-- Datos estructurados -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "AuriGo",
+          "url": "https://aurigo.app/",
+          "logo": "https://aurigo.app/favicon.svg",
+          "areaServed": { "@type": "State", "name": "Táchira, Venezuela" }
+        },
+        {
+          "@type": "TaxiService",
+          "name": "AuriGo",
+          "provider": { "@type": "Organization", "name": "AuriGo" },
+          "areaServed": "San Cristóbal, Táchira, Venezuela",
+          "availableChannel": { "@type": "ServiceChannel", "serviceUrl": "https://aurigo.app/app" },
+          "paymentAccepted": "Efectivo COP, Efectivo USD, Pago Móvil, Transferencia, Binance Pay, PayPal"
+        },
+        {
+          "@type": "MobileApplication",
+          "name": "AuriGo",
+          "operatingSystem": "Web, Android",
+          "applicationCategory": "TravelApplication",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Rendimiento: fuentes con preconnect y display=swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
+    <noscript>AuriGo: app de traslados en San Cristóbal, Táchira. Activa JavaScript para pedir tu traslado.</noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

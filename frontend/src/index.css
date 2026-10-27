@@ -48,6 +48,10 @@ body {
   position: relative;
 }
 
+/* En la landing el root ocupa todo el ancho */
+body.is-landing { display: block; }
+body.is-landing #root { max-width: none; box-shadow: none; background: transparent; }
+
 /* Tipografía de números y tarifas con alineación tabular obligatoria */
 .tabular-nums {
   font-family: 'Inter', 'JetBrains Mono', monospace;

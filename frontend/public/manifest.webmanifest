@@ -1,0 +1,10 @@
+{
+  "name": "AuriGo - La ruta cordial del Táchira",
+  "short_name": "AuriGo",
+  "start_url": "/app",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0F172A",
+  "lang": "es-VE",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
